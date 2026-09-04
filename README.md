@@ -1,147 +1,447 @@
-# FlyRank ML Internship — Starter Repo
+# Refresh Opportunity Scoring
 
-**Applied Search Intelligence: Google Search Ranking & Discoverability**
+### FlyRank ML Internship — Capstone Project
 
-This is the starting point for the FlyRank ML Internship. You **clone it into your own public
-repo** (one click — *Use this template*), build everything there, and submit that repo URL on
-each assignment in your portal — it's your workspace, your submission, and your portfolio all
-at once. The rhythm is simple: do the work, commit it, submit on the card. Done.
+An explainable machine learning system for prioritizing pages that may warrant content-refresh review.
 
-Everything here runs on a small **anonymized** slice of real FlyRank search data. No credentials,
-no private client data, no setup headaches.
+## Live Research Paper
 
-> **New here?** Two reads: **[SETUP.md](SETUP.md)** (GitHub, Colab, and data access — ten
-> minutes, with every silent pitfall flagged), then **[GUIDE.md](GUIDE.md)** (every file
-> explained, what to edit vs. leave alone, and where your own work goes — five minutes).
+**Read the deployed capstone paper:**
 
+https://asifbillah845-coder.github.io/ml-Internship--fyrank/
+
+The paper presents the research question, methodology, model comparison, signal audit, recommendations, limitations, and reproducibility details.
+ 
 ---
+## Project Overview
 
-## Quickstart — first win in 2 minutes
+This project investigates whether available content and search-performance signals can be used to prioritize pages for **content-refresh review**.
 
-The fastest path is Google Colab (one click, zero install). Open Notebook 1 and run all cells:
+The goal is not to claim that the model predicts Google's ranking algorithm or that refreshing a page will necessarily improve its traffic or rankings.
 
-[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/asifbillah845-coder/ml-Internship--fyrank/blob/main/notebooks/01_first_look_and_discovery.ipynb?flush_cache=true)
- **Week 1 — Run it, then discover a real truth yourself**
+Instead, the system is designed as a **decision-support tool** that helps analysts identify pages that may deserve attention first.
 
-[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/asifbillah845-coder/ml-Internship--fyrank/blob/main/notebooks/02_your_first_readable_model.ipynb?flush_cache=true)
- **Week 2 — The model is just a rule you can read**
+The project follows the FlyRank ML Internship workflow:
 
-[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/asifbillah845-coder/ml-Internship--fyrank/blob/main/notebooks/03_working_with_the_full_release.ipynb?flush_cache=true)
- **Weeks 3+ — The full release (~79M rows) via DuckDB, no download needed** — hosted at
- [`FlyRank/internship-warehouse`](https://huggingface.co/datasets/FlyRank/internship-warehouse) (gated: request access + accept the data-use terms, approval is instant)
+**Problem framing → Data contract → Leakage check → Signal audit → Baseline → Machine learning → Validation → Action playbook**
 
----
+## Research Question
 
-## Your assignment notebooks — open, fill, save, done
+> **Can an explainable machine learning model prioritize pages that show signals associated with declining search performance better than a simple rule-based baseline?**
 
-Every assignment is one pre-named skeleton notebook in `work/notebooks/`. Click its badge,
-fill the sections in order, then **File → Save a copy in GitHub → OK** — the dialog is
-already pre-filled with your repo and the right path.
+The project evaluates this using an anonymized FlyRank dataset and a client-aware holdout evaluation.
 
-> **The badges know whose repo they're in.** About 30 seconds after you create your copy, an
-> automatic commit ("Point Colab badges at this copy") rewires every badge in it to open
-> **your** notebooks — with your saved work — instead of the shared read-only ones. Reading
-> this on the shared starter page? The badges below open blank previews; make your copy
-> first ([SETUP.md](SETUP.md), Moment 1).
+## Dataset
 
-| Week | Card | Notebook | Open |
-|---|---|---|---|
-| 1 | ML-02 | `w01_research_question` | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/asifbillah845-coder/ml-Internship--fyrank/blob/main/work/notebooks/w01_research_question.ipynb?flush_cache=true) |
-| 2 | ML-03 | `w02_ml_task_framing` | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/asifbillah845-coder/ml-Internship--fyrank/blob/main/work/notebooks/w02_ml_task_framing.ipynb?flush_cache=true) |
-| 3 | ML-04 | `w03_data_contract` | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/asifbillah845-coder/ml-Internship--fyrank/blob/main/work/notebooks/w03_data_contract.ipynb?flush_cache=true) |
-| 3 | ML-05 | `w03_feature_leakage_check` | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/asifbillah845-coder/ml-Internship--fyrank/blob/main/work/notebooks/w03_feature_leakage_check.ipynb?flush_cache=true) |
-| 4 | ML-06 | `w04_signal_audit` | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/asifbillah845-coder/ml-Internship--fyrank/blob/main/work/notebooks/w04_signal_audit.ipynb?flush_cache=true) |
-| 4 | ML-07 | `w04_baseline_score` | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/asifbillah845-coder/ml-Internship--fyrank/blob/main/work/notebooks/w04_baseline_score.ipynb?flush_cache=true) |
-| 5 | ML-08 | `w05_model` | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/asifbillah845-coder/ml-Internship--fyrank/blob/main/work/notebooks/w05_model.ipynb?flush_cache=true) |
-| 6 | ML-09 | `w06_validation_audit` | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/asifbillah845-coder/ml-Internship--fyrank/blob/main/work/notebooks/w06_validation_audit.ipynb?flush_cache=true) |
-| 7 | ML-10 | `w07_action_playbook` | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/asifbillah845-coder/ml-Internship--fyrank/blob/main/work/notebooks/w07_action_playbook.ipynb?flush_cache=true) |
-| 8 | ML-11 | `capstone` | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/asifbillah845-coder/ml-Internship--fyrank/blob/main/work/notebooks/capstone.ipynb?flush_cache=true) |
+The project uses the bundled anonymized FlyRank ML Internship dataset.
 
-Badges not opening *your* copy? Colab's built-in opener always works: **File → Open notebook
-→ GitHub tab** → paste `github.com/you/your-repo` → pick the notebook.
+- **30,000 pages**
+- **44 columns**
+- Anonymized/pseudonymized content identifiers
+- Search-demand signals
+- Impression and click metrics
+- Session and engagement metrics
+- Content age and freshness signals
+- CTR and average position
+- Content-size features
+- Traffic and behavioral indicators
 
-### Prefer local?
+The dataset does **not** contain publicly exposed client names, domains, URLs, titles, keywords, or credentials.
 
-```bash
-git clone <this-repo-url>
-cd flyrank-ml-internship-starter
-pip install -r requirements.txt          # or: uv pip install -r requirements.txt
-python scripts/run_all.py
-```
+### Target Label
 
-That runs the whole pipeline on the bundled sample and writes results to `outputs/`.
-
----
-
-## What you get
-
-| Path | What it is |
-|---|---|
-| `notebooks/` | Week 1–2 **first-win notebooks** (Colab-ready). Start here. |
-| `scripts/01–05` + `run_all.py` | The runnable reference pipeline: prepare → baseline → train → evaluate → PDF. |
-| `data/raw/content_refresh_anonymized.csv` | The anonymized starter dataset (~30k pages). |
-| `outputs/` | Example outputs so you can see the **target shape** (`model_report.md`, `refresh_queue_sample.csv`, `charts/`). |
-| `work/` | **Your space.** Lane experiments and your capstone live here — see `work/README.md`. |
-| `docs/` | The core docs + the data dictionary (see below). |
-
-### Read these (in `docs/`)
-
-1. **`ml-core-foundation-framework.md`** — the first-principles map of ML as a whole system. The backbone of the live sessions.
-2. **`ml-intern-dataset-and-lane-guide.md`** — how to use the data safely, the capstone workflow, and the analysis "lanes" you can pick from.
-3. **`intern-free-tooling-guide.md`** — the zero-budget tool stack (Python, Colab, free AI assistants). You never need to pay for anything.
-4. **`data-dictionary.md`** — all 44 columns: meaning, scale, and gotchas. Keep it open while you work.
-
----
-
-## The pipeline (what `run_all.py` does)
+The target is:
 
 ```text
-01_prepare_features.py   clean + build the feature vector, define the label
-02_baseline_score.py     a transparent hand-rule "fix this first" score
-03_train_model.py        logistic regression, decision tree, random forest (client-holdout split)
-04_evaluate_and_export.py  ranked queue + charts + Markdown report
-05_build_pdf_report.py   a shareable PDF summary
-```
+is_declining_label = (trend_direction == "down")
 
-On the bundled sample, the learned model clearly beats the hand-written rule at picking the right
-pages to review first (**Precision@50 ≈ 0.24 → 0.74**; the model number can land 0.68–0.74
-depending on library versions — the ~3x lift is the point). The notebooks compute these numbers
-live, so they always reflect the current data and environment.
+In the modeling pipeline:
 
-**Teaching point:** the model is the capstone, but the *workflow* is the lesson —
-`problem framing → data cleaning → baseline → first model → evaluation → explainable recommendation`.
+trend_direction is used to construct the target.
+trend_direction is not used as a model feature.
+trend_pct is not used as a model feature.
 
----
+This prevents direct target leakage.
 
-## Data safety (read `DATA_USE.md`)
+Methodology
+1. Data Preparation
 
-- Only the small **anonymized** CSV ships here — no client names, domains, URLs, titles, or keywords.
-- **Never** add raw private client data to this repo or your fork. Need more data? Request an approved
-  release from your mentor — never export it yourself.
-- Don't paste client data into third-party AI tools.
-- Frame every result as **observed / measured / directional / decision-support** — never
-  "I predicted Google's algorithm."
+The pipeline prepares the anonymized dataset by:
 
-The `.gitignore` blocks datasets by default, and CI fails any commit that includes a dataset.
+Removing unusable records
+Keeping pages with search impressions
+Applying the content-age eligibility rule
+Removing duplicate content identifiers
+Creating derived numeric features
+Creating the declining-performance label
+2. Rule-Based Baseline
 
----
+A transparent baseline score was created before training machine-learning models.
 
-## Assignments & schedule
+The baseline combines:
 
-Weekly assignments, live events, and the capstone live on **your portal board** (your
-enrollment email has your access link). This repo is the shared technical foundation they all
-build on — and the `skills/` folder here is the instruction library for your AI assistant
-(start at [skills/README.md](skills/README.md)).
+Visibility
+Freshness risk
+Position opportunity
+Content-depth gap
 
-**First time with GitHub?** You need exactly four things (full walkthrough: [SETUP.md](SETUP.md)):
-1. A free account at github.com.
-2. Your own copy of this repo: **Use this template → Create a new repository** → public.
-   (One click — brings the notebooks, `work/`, and the CI leak-guard with it.)
-3. In Colab: *File → Save a copy in GitHub* — opened from your copy's badges, the dialog is
-   already pre-filled with your repo and path, so it's just OK (Colab handles auth).
-4. That's your submission repo — share its **github.com/you/your-repo** URL with Assignment 1
-   (never a colab.research.google.com or drive.google.com link).
+The purpose of the baseline is to provide a simple benchmark against which the learned models can be evaluated.
 
----
+3. Machine Learning Models
 
-*Track leads: Mirza Ašćerić (ML) · Hole (data engineering). Code under MIT (see `LICENSE`); data under `DATA_USE.md`.*
+Three classification models were evaluated:
+
+Logistic Regression
+Decision Tree
+Random Forest
+
+The models were evaluated using a client-aware holdout split rather than randomly splitting individual pages.
+
+This helps reduce the possibility that pages from the same client appear in both training and testing data.
+
+4. Evaluation Metrics
+
+The project focuses particularly on ranking-oriented metrics because the practical goal is to prioritize a limited number of pages for review.
+
+Key metrics include:
+
+Precision@20
+Precision@50
+Precision@100
+ROC-AUC
+Average Precision
+Precision
+Recall
+F1 score
+Accuracy
+Results
+
+The final dataset contained:
+
+30,000 pages
+16,262 declining-label pages
+54.2% declining-label rate
+
+The client-aware split produced:
+
+27,675 training rows
+2,325 test rows
+Model Comparison
+Model	ROC-AUC	Average Precision	Precision@50
+Random Forest	0.750	0.618	0.740
+Decision Tree	0.742	0.575	0.660
+Logistic Regression	0.700	0.522	0.400
+Rule-Based Baseline	0.627	0.468	0.240
+Main Result
+
+The Random Forest achieved the strongest overall ranking performance.
+
+At the top 50 predictions:
+
+Random Forest Precision@50 = 0.740
+Baseline Precision@50      = 0.240
+
+This represents approximately a:
+
+3.08× improvement over the baseline
+
+for Precision@50 on this evaluation split.
+
+The result suggests that the learned model can prioritize declining-label pages more effectively than the simple rule baseline in this dataset.
+
+Important Feature Signals
+
+The strongest Random Forest feature-importance signals included:
+
+Feature	Approx. Importance
+Days with impressions	0.158
+Log impressions over 90 days	0.129
+Average position	0.109
+Content age	0.095
+Character count	0.043
+Word count	0.040
+Log clicks over 90 days	0.035
+CTR	0.033
+Scroll rate	0.031
+Days with sessions	0.028
+
+Feature importance indicates which variables contributed strongly to the model's predictions.
+
+It does not establish that any individual feature causes search-performance decline.
+
+Signal Audit
+
+Several signals were independently checked before being used for recommendations.
+
+Volume Signal
+
+Pages with different impression-volume levels showed meaningful differences in decline rates.
+
+Verdict: CONFIRMED
+
+This provides directional evidence that search visibility/volume is useful for prioritization.
+
+CTR and Position
+
+Among sufficiently visible pages, declining pages showed lower median CTR than non-declining pages at comparable visibility/position conditions.
+
+Verdict: CONFIRMED
+
+This supports using CTR and position together as a review signal.
+
+Staleness
+
+A simple assumption that older/unchanged pages are automatically more likely to decline was not supported by this snapshot.
+
+The basic staleness flag produced the opposite directional result in this dataset.
+
+Verdict: OPPOSITE
+
+This is an important negative finding and prevents the project from turning an intuitive assumption into an unsupported recommendation.
+
+Recommended Action Playbook
+
+The model is used to create a ranked review queue.
+
+Suggested actions include:
+
+1. Monitor
+
+Pages with weaker evidence should remain under observation rather than being immediately changed.
+
+2. Refresh
+
+Pages with stronger decline signals can be prioritized for content review and potential updating.
+
+3. Refresh + Review CTR
+
+Pages showing visibility and CTR opportunity should receive additional CTR-focused review.
+
+4. Refresh + Review Engagement
+
+Pages showing engagement-related signals should receive content-quality and user-engagement review.
+
+5. Expand + Refresh
+
+Pages with stronger demand/content-depth opportunities may warrant expansion alongside a refresh.
+
+These actions are recommendations for human review, not automatic instructions to change content.
+
+Why Random Forest?
+
+Random Forest was selected as the final model because it achieved the strongest Precision@50 and overall ranking performance among the evaluated models.
+
+Its advantage is particularly relevant to this project because the operational objective is:
+
+Find the most useful pages to review first.
+
+The model therefore provides a ranked decision-support queue rather than simply producing a binary prediction.
+Reproducibility
+
+Clone the repository:
+
+git clone https://github.com/asifbillah845-coder/ml-Internship--fyrank.git
+cd ml-Internship--fyrank
+
+Install dependencies:
+
+pip install -r requirements.txt
+
+Run the complete pipeline:
+
+python scripts/run_all.py
+
+The pipeline performs:
+
+01_prepare_features.py
+        ↓
+02_baseline_score.py
+        ↓
+03_train_model.py
+        ↓
+04_evaluate_and_export.py
+        ↓
+05_build_pdf_report.py
+
+Generated results are written to the appropriate outputs/ locations.
+
+Repository Structure
+ml-Internship--fyrank/
+│
+├── data/
+│   └── raw/
+│       └── content_refresh_anonymized.csv
+│
+├── docs/
+│   └── index.html
+│
+├── notebooks/
+│
+├── outputs/
+│   ├── charts/
+│   ├── model_report.md
+│   └── ...
+│
+├── scripts/
+│   ├── 01_prepare_features.py
+│   ├── 02_baseline_score.py
+│   ├── 03_train_model.py
+│   ├── 04_evaluate_and_export.py
+│   ├── 05_build_pdf_report.py
+│   └── run_all.py
+│
+├── submission/
+│   └── paper_url.txt
+│
+├── work/
+│   ├── notebooks/
+│   ├── capstone.ipynb
+│   └── capstone_report.md
+│
+├── requirements.txt
+├── GUIDE.md
+├── DATA_USE.md
+├── SETUP.md
+└── README.md
+Capstone Work
+
+The main capstone work is contained in:
+
+work/
+
+This includes the assignment notebooks and final capstone analysis.
+
+Important notebooks include:
+
+w01_research_question.ipynb
+w02_ml_task_framing.ipynb
+w03_data_contract.ipynb
+w03_feature_leakage_check.ipynb
+w04_signal_audit.ipynb
+w04_baseline_score.ipynb
+w05_model.ipynb
+w06_validation_audit.ipynb
+w07_action_playbook.ipynb
+capstone.ipynb
+
+The detailed written report is:
+
+work/capstone_report.md
+Public-Safety and Data Rules
+
+This repository follows the FlyRank ML Internship data-use requirements.
+
+The project does not publish:
+
+Client names
+Private domains
+Private URLs
+Search keywords
+Private queries
+Credentials
+Private exports
+Other identifying client information
+
+Only anonymized/pseudonymized data appropriate for the internship project is used.
+
+Do not add private client data to this public repository.
+
+Do not paste private client data into third-party AI tools.
+
+Honest Framing
+
+This project should be interpreted as an observational machine-learning analysis and decision-support system.
+
+The results do not prove that:
+
+Google uses these exact signals in its ranking algorithm.
+A page will definitely lose rankings because of these signals.
+Refreshing a page will definitely increase traffic.
+The model predicts Google's ranking algorithm.
+The model's feature importance represents causality.
+
+The model identifies patterns associated with the declining label within the available dataset.
+
+Further testing with genuinely future data and controlled interventions would be required to establish whether recommended refresh actions produce measurable improvements.
+
+Limitations
+Snapshot Data
+
+The available dataset is a bundled snapshot rather than a true longitudinal experiment.
+
+Therefore, the evaluation does not establish future-time performance under production conditions.
+
+No Causal Evidence
+
+The analysis identifies associations and ranking signals.
+
+It does not prove that changing a page will cause traffic, CTR, position, or engagement to improve.
+
+No Controlled Refresh Experiment
+
+The project does not contain randomized treatment/control groups showing the effect of refreshing content.
+
+Model Generalization
+
+Performance may change on other datasets, clients, industries, search environments, or future periods.
+
+Feature Importance
+
+Random Forest feature importance describes predictive contribution, not causal importance.
+
+Key Takeaway
+
+The main finding is:
+
+An explainable Random Forest model can prioritize pages associated with declining search performance substantially better than the simple rule-based baseline on this anonymized evaluation dataset.
+
+The strongest measured result was:
+
+Precision@50 = 0.740
+ROC-AUC      = 0.750
+
+compared with:
+
+Baseline Precision@50 = 0.240
+Baseline ROC-AUC      = 0.627
+
+The practical value is therefore in prioritizing human review, not automatically deciding which pages should be changed.
+
+Deliverables
+Research Paper
+
+https://asifbillah845-coder.github.io/ml-Internship--fyrank/
+
+Paper URL Submission File
+submission/paper_url.txt
+Capstone Notebook
+work/notebooks/capstone.ipynb
+Capstone Report
+work/capstone_report.md
+Generated Model Report
+outputs/model_report.md
+Acknowledgment & Data Credit
+
+Built on the FlyRank ML Internship dataset.
+
+This project was completed as part of the FlyRank ML Internship and follows the internship's anonymized-data, reproducibility, and public-safety requirements.
+
+License
+
+The repository code follows the project's included license.
+
+The dataset remains subject to the data-use rules described in:
+
+DATA_USE.md
+
+Please read and follow those rules before using or redistributing any project data.
+
+Author
+
+Asif Billah
+
+FlyRank ML Internship — Capstone Project
+
+Project: Refresh Opportunity Scoring
+
+Focus: Machine Learning · Search Intelligence · Content Refresh Prioritization · Explainable Decision Support
